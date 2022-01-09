@@ -1,61 +1,94 @@
-import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
+import 'package:sleek_button/sleek_button.dart';
 
 void main() {
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      home: RandomWords()
+      title: 'biodatadiri.com',
+      theme: ThemeData(
+        primarySwatch: Colors.red,
+      ),
+      home: MyHomePage(title: 'Biodata Diri'),
     );
   }
 }
 
-class RandomWords extends StatefulWidget {
+class MyHomePage extends StatefulWidget {
+  MyHomePage({Key? key, required this.title}) : super(key: key);
+
+  final String title;
+
   @override
-  _RandomWordsState createState() => _RandomWordsState();
+  _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _RandomWordsState extends State<RandomWords> {
-  final _suggestions = <WordPair>[];
-  final _biggerFont = const TextStyle(fontSize: 18.0);
+class _MyHomePageState extends State<MyHomePage> {
+  final _nama = TextEditingController();
+  final _alamat = TextEditingController();
+  final _tanggal = TextEditingController();
+  final _kelamin = TextEditingController();
+  final _pekerjaan = TextEditingController();
+  final _no = TextEditingController();
+  String identitas = "Isi Data Diri Berikut";
 
- @override
-    Widget build(BuildContext context) {
-      return Scaffold(
-    appBar: AppBar(
-      title: const Text('Aplikasi Shopping List'),
-    ),
-    body: _buildSuggestions(),
-  );
-}
-
-Widget _buildSuggestions() {
-  return ListView.builder(
-      padding: const EdgeInsets.all(16.0),
-      itemBuilder: /*1*/ (context, i) {
-        if (i.isOdd) return const Divider(); /*2*/
-
-        final index = i ~/ 2; /*3*/
-        if (index >= _suggestions.length) {
-          _suggestions.addAll(generateWordPairs().take(10)); /*4*/
-        }
-        return _buildRow(_suggestions[index]);
-      });
-}
-
-Widget _buildRow(WordPair pair) {
-  return ListTile(
-    title: Text(
-      pair.asPascalCase,
-      style: _biggerFont,
-    ),
-  );
-}
-
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
+      body: Column(
+        children: [
+        TextField(
+          controller: _nama,
+          decoration: const InputDecoration(labelText: "Nama"),
+        ),
+        TextField(
+          controller: _alamat,
+          decoration: InputDecoration(labelText: "Alamat"),
+        ),
+        TextField(
+          controller: _tanggal,
+          decoration: InputDecoration(labelText: "Tanggal Lahir"),
+        ),
+        TextField(
+          controller: _kelamin,
+          decoration: InputDecoration(labelText: "Jenis Kelamin"),
+        ),
+        TextField(
+          controller: _pekerjaan,
+          decoration: InputDecoration(labelText: "Pekerjaan"),
+        ),
+        TextField(
+          controller: _no,
+          decoration: InputDecoration(labelText: "No.HP"),
+        ),
+        SleekButton( 
+            onTap: () {
+             setState(() {
+               identitas = "Nama saya adalah " + _nama.text + "." + " Alamat saya berada di " + _alamat.text + "." + 
+               " Saya lahir pada tanggal " + _tanggal.text + "." + " Saya berjenis kelamin " + _kelamin.text + "." +
+               " Pekerjaan saya adalah " + _pekerjaan.text + "." + " Nomer telepon saya adalah " + _no.text + "." ;
+               _nama.clear();
+               _alamat.clear();
+               _tanggal.clear();
+               _tanggal.clear();
+               _kelamin.clear();
+               _pekerjaan.clear();
+               _no.clear();
+             });
+           }, 
+           child: const Text("Simpan"),
+        ),
+        Text(identitas)
+      ],
+    ));  
+  }
 }
